@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Food &amp; Drinks{% endblock %}
+{% block head %}<script src="{{ url_for('static', filename='app.js') }}" defer></script>{% endblock %}
+{% block content %}
+<section class="intro"><p class="eyebrow">EXPLORE YOUR NEIGHBOURHOOD</p><h1>Food &amp; Drinks</h1><p>Find a table's worth of ideas, one menu at a time.</p></section>
+<section class="filters" aria-label="Filter restaurants"><label>Locality<select id="locality"><option value="">All localities</option><option>Malleswaram</option><option>Indiranagar</option></select></label><label>Cuisine<select id="cuisine"><option value="">All cuisines</option><option>South Indian</option><option>North Indian</option><option>Chinese</option></select></label><label>Preference<select id="preference"><option value="">Veg &amp; Non-Veg</option><option>Veg</option><option>Non-Veg</option></select></label></section>
+<section class="results" aria-labelledby="results-heading"><div class="section-title"><h2 id="results-heading">Restaurants &amp; menus</h2><span>Fictional local favourites</span></div><p id="status" role="status" aria-live="polite"></p><div id="restaurants" class="cards"></div></section>
+<section id="cart" class="panel"><h2>Your cart</h2>{% if cart_items %}<p>From {{ cart_items[0].restaurant_name }}. One restaurant per cart.</p><ul class="menu">{% for item in cart_items %}<li><div><strong>{{ item.name }}</strong><span class="preference">₹{{ item.price|money }} each · ₹{{ item.line_total|money }}</span></div><form class="quantity-form" method="post" action="{{ url_for('update_cart') }}"><input type="hidden" name="item_id" value="{{ item.id }}"><label>Qty <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="20" required></label><button>Update</button><button name="remove" value="1" formnovalidate>Remove</button></form></li>{% endfor %}</ul><p><strong>Subtotal: ₹{{ subtotal|money }}</strong></p><a class="button" href="{{ url_for('checkout') }}">Go to checkout</a>{% else %}<p>Your cart is empty. Add an item from a menu.</p>{% endif %}</section>
+{% endblock %}
+

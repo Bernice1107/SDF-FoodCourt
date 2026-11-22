@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}My History{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>My History</h1>
+  <h2>Table reservations</h2>
+  {% for booking in reservations %}
+  <article class="history-order">
+    <h2>Reservation #{{ booking.id }} &middot; {{ booking.restaurant_name }}</h2>
+    <p>{{ booking.reservation_status }} for {{ booking.booking_date }} at {{ booking.time_slot }} &middot; {{ booking.party_size }} people</p>
+    <p>Table {{ booking.table_number }} (capacity {{ booking.capacity }}) &middot; Demo deposit paid: &#8377;{{ booking.deposit_paise|money }}</p>
+  </article>
+  {% else %}<p>No reservations yet.</p>{% endfor %}
+  <h2>Food orders</h2>
+  {% for order in orders %}
+  <article class="history-order">
+    <h2>Order #{{ order.id }} &middot; {{ order.restaurant_name }}</h2>
+    <p>{{ order.created_at }} UTC &middot; {{ order.service }} &middot; Order: {{ order.order_status }} &middot; {{ order.method }} #{{ order.payment_id }}: {{ order.payment_status }} &middot; &#8377;{{ order.amount_paise|money }}</p>
+    {% if order.address %}<p>Delivery to: {{ order.address }}</p>{% endif %}
+    <ul>{% for item in order_items[order.id] %}<li>{{ item.item_name }} &times; {{ item.quantity }} at &#8377;{{ item.unit_price_paise|money }} each</li>{% endfor %}</ul>
+    <p>Subtotal &#8377;{{ order.subtotal_paise|money }} + delivery &#8377;{{ order.delivery_fee_paise|money }} = <strong>&#8377;{{ order.total_paise|money }}</strong></p>
+    {% if order.order_status == 'Completed' and order.restaurant_id %}
+      {% if order.review_id %}<p>Review submitted.</p>{% else %}
+      <form method="post" action="{{ url_for('submit_review', order_id=order.id) }}" class="stack">
+        <label>Rating<select name="rating" required><option value="">Choose stars</option>{% for n in range(1, 6) %}<option value="{{ n }}">{{ n }} stars</option>{% endfor %}</select></label>
+        <label>Review<textarea name="review" maxlength="500" required></textarea></label>
+        <button>Submit review</button>
+      </form>{% endif %}
+    {% endif %}
+  </article>
+  {% else %}{% if not legacy_orders %}<p>No orders yet.</p>{% endif %}{% endfor %}
+  {% if legacy_orders %}<h2>Earlier demo orders</h2>{% for order in legacy_orders %}
+  <article class="history-order"><h2>Order #{{ order.id }} &middot; {{ order.restaurant_name }}</h2><p>{{ order.created_at }} UTC &middot; {{ order.service }} &middot; Demo payment successful</p>{% if order.address %}<p>Delivery to: {{ order.address }}</p>{% endif %}<ul>{% for item in legacy_items[order.id] %}<li>{{ item.item_name }} &times; {{ item.quantity }} at &#8377;{{ item.unit_price }} each</li>{% endfor %}</ul><p>Subtotal &#8377;{{ order.subtotal }} + delivery &#8377;{{ order.delivery_fee }} = <strong>&#8377;{{ order.total }}</strong></p></article>
+  {% endfor %}{% endif %}
+  <a href="{{ url_for('food_and_drinks') }}">Back to restaurants</a>
+</section>
+{% endblock %}

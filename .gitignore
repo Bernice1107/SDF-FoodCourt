@@ -1,0 +1,20 @@
+﻿.venv/
+food_court.db
+__pycache__/
+
+.uv-cache/
+vendor/
+
+# Generated report previews, browser profiles and temporary databases
+report_artifacts/*
+!report_artifacts/test_results.json
+!report_artifacts/booking_crop.png
+!report_artifacts/history_crop.png
+!report_artifacts/source_images/
+report_artifacts/source_images/*
+!report_artifacts/source_images/source_*.png
+!report_artifacts/uml_dia/
+report_artifacts/uml_dia/*
+!report_artifacts/uml_dia/0*.dia
+!report_artifacts/uml_dia/0*.png
+tmpzdrtjeve/

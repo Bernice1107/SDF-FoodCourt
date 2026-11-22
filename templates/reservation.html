@@ -1,0 +1,19 @@
+﻿{% extends "base.html" %}
+{% block title %}Book a table{% endblock %}
+{% block content %}
+<section class="panel narrow">
+  <h1>Book a table</h1>
+  <p>{{ restaurant.name }} &middot; Signed in as {{ session.customer }}</p>
+  <p>Tables seat up to 2, 4 or 6 people. We assign the smallest suitable available table.</p>
+  <p><strong>Demo deposit: &#8377;{{ deposit|money }}</strong> (simulated; no real payment).</p>
+  <form method="post" class="stack">
+    <input type="hidden" name="booking_token" value="{{ booking_token }}">
+    <label>Date<input type="date" name="booking_date" min="{{ today }}" value="{{ booking_date }}" required></label>
+    <label>Time slot<select name="time_slot" required><option value="">Choose a slot</option>{% for slot in slots %}<option value="{{ slot }}" {% if slot == time_slot %}selected{% endif %}>{{ slot }}</option>{% endfor %}</select></label>
+    <label>Party size<input type="number" name="party_size" min="1" max="6" value="{{ party_size }}" required></label>
+    <label>Demo deposit result<select name="payment"><option value="success">Success</option><option value="failure" {% if request.form.get('payment') == 'failure' %}selected{% endif %}>Decline</option></select></label>
+    <button>Confirm table &middot; demo deposit &#8377;{{ deposit|money }}</button>
+  </form>
+  <a href="{{ url_for('food_and_drinks') }}">Back to restaurants</a>
+</section>
+{% endblock %}

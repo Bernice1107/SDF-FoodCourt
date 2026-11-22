@@ -1,0 +1,5 @@
+﻿{% extends "base.html" %}
+{% block title %}Manager sign-in{% endblock %}
+{% block content %}<section class="panel narrow"><h1>Manager demo sign-in</h1>
+<p>Use <strong>curry.manager</strong> for Curry Leaf Kitchen or <strong>copper.manager</strong> for Copper Spoon. The separate demo password is <strong>manager-demo</strong>. Customer OTPs do not grant manager access.</p>
+<form method="post" class="stack"><label>Manager ID<input name="identifier" required></label><label>Demo password<input name="password" type="password" required></label><button>Sign in as manager</button></form></section>{% endblock %}
