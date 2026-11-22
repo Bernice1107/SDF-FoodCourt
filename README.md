@@ -1,6 +1,7 @@
 # Food Court: Food & Drinks
 
-A first browsing slice based on the Food Court scenario in Varshini's Lab Manuals 1–6, especially FR2–FR4 in Manuals 1 and 2. The restaurants and menu items are fictional. Select a locality, cuisine and/or preference; matching restaurants display only matching menu items. Selecting all localities shows both localities. No login is needed for browsing.
+Food Court is a web app for browsing fictional restaurants and menus. Filter by locality, cuisine, or food preference to see matching restaurants and menu items. Selecting all localities shows results from both. No login is needed to browse
+
 
 ## Start on Windows (PowerShell)
 
